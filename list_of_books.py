@@ -35,4 +35,3 @@ name_urls = {
     "The Ultimate Guide to Marketing Automation": "https://www.salesmanago.com/info/definitve_and_ultimate_new_knowledge.htm",
     "Engagement Marketing": "https://www.salesmanago.com/info/Engagement_Marketing_new_knowledge.htm",
 }
-
