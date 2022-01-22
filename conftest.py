@@ -24,4 +24,3 @@ def browser():
     yield browser
     print('\nquit browser...')
     browser.quit()
-
