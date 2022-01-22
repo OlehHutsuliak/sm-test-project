@@ -1,3 +1,4 @@
+# Data needed for test
 name_urls = {
     "Comprehensive guide to NFT current use and future perspectives": "https://salesmanago.com/info/comprehensive-guide-to-nft-current-use-and-future-perspectives.htm",
     "The Ultimate Guide to Headless Commerce": "https://www.salesmanago.com/info/the-ultimate-guide-to-headless-commerce.htm",
