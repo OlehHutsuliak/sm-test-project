@@ -14,13 +14,21 @@ def book(request):
     name = request.config.getoption("--book")
     if name in name_urls:
         url = name_urls.get(name)
-    return url
+        return url
 
 
-@pytest.fixture(scope='function')
+@pytest.fixture(scope='class')
 def browser():
+    options = webdriver.ChromeOptions()
+    options.add_experimental_option('excludeSwitches', ['enable-logging'])
     print('\nstart browser for test...')
-    browser = webdriver.Chrome()
+    browser = webdriver.Chrome(options=options)
     yield browser
     print('\nquit browser...')
     browser.quit()
+
+
+@pytest.fixture
+def name_of_book(request):
+    name = request.config.getoption("--book")
+    return name
