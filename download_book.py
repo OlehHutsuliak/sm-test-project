@@ -1,6 +1,5 @@
 import time
-from selenium.webdriver.support.ui import WebDriverWait
-from selenium.webdriver.support import expected_conditions as EC
+from selenium.common.exceptions import NoSuchElementException
 import pytest
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support.ui import Select
@@ -24,8 +23,8 @@ class TestChooseBookTab:
         print(f"\nSo, on the first page www.salesmanago.pl we chose wright tab, it is {text} tab.")
         book_el.click()
         page_element_assert = browser.find_element(By.CSS_SELECTOR, '.knowledge.text-center').text
-        assert page_element_assert == 'Free Ebooks',\
-            f"This is wrong page, correct your test. It's {page_element_assert} page "
+        assert page_element_assert == 'Free Ebooks', \
+            f"This is wrong page, correct your test. It's {page_element_assert} page."
         print("It's time  to download a book")
 
     @pytest.mark.usefixtures('book', 'name_of_book')
@@ -35,7 +34,7 @@ class TestChooseBookTab:
         browser.find_element(By.CSS_SELECTOR, self.selector).click()
         browser.switch_to.window(browser.window_handles[::][1])
         browser.find_element(By.CSS_SELECTOR, '.form-control[name="name"').send_keys('QA Team')
-        browser.find_element(By.CSS_SELECTOR, '.form-control#email').send_keys('oleh.hutsuliak@salesmanago.com')
+        browser.find_element(By.CSS_SELECTOR, '.form-control#email').send_keys('oleh.hutsuliak+test@salesmanago.com')
         browser.find_element(By.CSS_SELECTOR, '.form-control[name="company"]').send_keys('Benhauer')
         browser.find_element(By.CSS_SELECTOR, '.form-control[name="url"]').send_keys('www.salesmanago.pl')
         country_options = Select(browser.find_element(By.CSS_SELECTOR, '.form-control#countryOptions'))
@@ -45,11 +44,22 @@ class TestChooseBookTab:
         browser.find_element(By.CSS_SELECTOR, 'button[type="submit"]:first-child').click()
         time.sleep(7)
 
-        # # Below I provide small assertion, where is checked -
-        # # "Is Book's name given on download page(page with form) "matches" with name of Book from list_of_books
-        # book_name_on_page = browser.find_element(By.CSS_SELECTOR, '.col-md-12 .ebook__title.text-center').text
-        # if book_name_on_page in name_of_book:
-        #     print("This is  right book", book_name_on_page, name_of_book)
-        # else:
-        #     print("Something goes wrong, check your code")
-        # print(book_name_on_page, name_of_book)
+        # We are on the page where we can finally download a book on computer.
+        # Unfortunately, this page has a different structure of HTML(depends on name of book) and it's hard to find
+        # unique selector. So, in this  case I prefer to  use a try/except/else statements.
+        # First, let's do small assertion.
+        # There is a button using which I can create a Free account. I will  use it to  check  that we are on
+        # the right page, and I will print which "Style" this page is.
+
+    def test_download_pdf(self, browser):
+        try:
+            free_account_button1 = browser.find_element(By.CSS_SELECTOR, '.thanks-message  .typ-btn').text
+            assert free_account_button1 == 'CREATE A FREE ACCOUNT', 'Keep searching for the button'
+            print('\nThe book will download from the "New Style" download page')
+        except NoSuchElementException:
+            free_account_button2 = browser.find_element(By.CSS_SELECTOR, '.col-md-12  .thankyou__button').text
+            assert free_account_button2 == 'Create a free account', 'Right button'
+            print('\nThe book will download from the "Old Style" download page.')
+        finally:
+            browser.find_element(By.CSS_SELECTOR, 'a[href^="https://files"]').click()  # Download ebook
+            time.sleep(4)
