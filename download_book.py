@@ -6,7 +6,7 @@ from selenium.webdriver.common.by import By
 from selenium.webdriver.support.ui import Select
 
 
-#There is some "strange" Traceback when i run Tests using a TERMINAL. Probably this block of code can fix it.
+# There is some "strange" Traceback when i run Tests using a TERMINAL. Probably this block of code can fix it.
 # options = webdriver.ChromeOptions()
 # options.add_experimental_option('excludeSwitches', ['enable-logging'])
 
@@ -16,6 +16,7 @@ class TestChooseBookTab:
 
     def test_move_to_knowledgecenter(self, browser):
         browser.get('https://www.salesmanago.com/')
+        browser.maximize_window()
         self.resources_el = browser.find_element(By.CSS_SELECTOR, '.menu__link[data-number="3"]  .menu__link_p').click()
         book_el = browser.find_element(By.CSS_SELECTOR, '.category__wrapper.category__wrapper_fl .category__item['
                                                         'href="https://www.salesmanago.com/info/knowledgecenter.htm"]')
@@ -29,7 +30,7 @@ class TestChooseBookTab:
 
     @pytest.mark.usefixtures('book', 'name_of_book')
     def test_download_page(self, browser, book, name_of_book):
-        print(f"\nThis book will be downloaded.\nName -{name_of_book} ; url - {book} ")
+        print(f"\nThis book will be downloaded :\nName -{name_of_book} ; url - {book} ")
         self.selector = f'.ebook__img--container [href="{book}"]'
         browser.find_element(By.CSS_SELECTOR, self.selector).click()
         browser.switch_to.window(browser.window_handles[::][1])
