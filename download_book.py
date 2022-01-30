@@ -3,11 +3,8 @@ from selenium.common.exceptions import NoSuchElementException
 import pytest
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support.ui import Select
-
-
-# There is some "strange" Traceback when i run Tests using a TERMINAL. Probably this block of code can fix it.
-# options = webdriver.ChromeOptions()
-# options.add_experimental_option('excludeSwitches', ['enable-logging'])
+from conftest import path
+import os
 
 
 @pytest.mark.usefixtures('browser')
@@ -28,7 +25,7 @@ class TestChooseBookTab:
         print("It's time  to download a book")
 
     @pytest.mark.usefixtures('book', 'name_of_book')
-    def test_download_page(self, browser, book, name_of_book):
+    def test_download_page_form(self, browser, book, name_of_book):
         print(f"\nThis book will be downloaded :\nName -{name_of_book} ; url - {book} ")
         self.selector = f'.ebook__img--container [href="{book}"]'
         browser.find_element(By.CSS_SELECTOR, self.selector).click()
@@ -39,10 +36,10 @@ class TestChooseBookTab:
         browser.find_element(By.CSS_SELECTOR, '.form-control[name="url"]').send_keys('www.salesmanago.pl')
         country_options = Select(browser.find_element(By.CSS_SELECTOR, '.form-control#countryOptions'))
         country_options.select_by_index(167)  # It will select Poland as a country. id=166; index_in_list=167
-        browser.implicitly_wait(5)
+        browser.implicitly_wait(2)
         browser.find_element(By.CSS_SELECTOR, '.form-control#phoneNumber').send_keys('882765448')
         browser.find_element(By.CSS_SELECTOR, 'button[type="submit"]:first-child').click()
-        time.sleep(7)
+        time.sleep(2)
 
         # We are on the page where we can finally download a book on computer.
         # Unfortunately, this page has a different structure of HTML(depends on name of book) and it's hard to find
@@ -60,6 +57,16 @@ class TestChooseBookTab:
             free_account_button2 = browser.find_element(By.CSS_SELECTOR, '.col-md-12  .thankyou__button').text
             assert free_account_button2 == 'Create a free account', 'Right button'
             print('\nThe book will download from the "Old Style" download page.')
-        finally:
-            browser.find_element(By.CSS_SELECTOR, 'a[href^="https://files"]').click()  # Download ebook
-            time.sleep(4)
+        browser.find_element(By.CSS_SELECTOR, 'a[href^="https://files"]').click()  # Download ebook
+        time.sleep(2)
+
+    @pytest.mark.usefixtures('pdf_file_name', 'name_of_book')
+    def test_book_in_folder(self, pdf_file_name, name_of_book):
+        assertion_path = os.path.join(path, pdf_file_name)
+        actual_downloaded_file = os.listdir(path)[0]
+        actual_downloaded_file_path = os.path.join(path, actual_downloaded_file)
+        if actual_downloaded_file_path == assertion_path:
+            print(f"\nThe book - '{name_of_book}'  downloaded correctly")
+        else:
+            print(f"\nSomething went wrong, actual downloaded file is - '{actual_downloaded_file}' "
+                  f"\nFilename must be - '{pdf_file_name}'")
