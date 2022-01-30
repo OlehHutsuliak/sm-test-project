@@ -36,7 +36,7 @@ class TestChooseBookTab:
         browser.find_element(By.CSS_SELECTOR, '.form-control[name="url"]').send_keys('www.salesmanago.pl')
         country_options = Select(browser.find_element(By.CSS_SELECTOR, '.form-control#countryOptions'))
         country_options.select_by_index(167)  # It will select Poland as a country. id=166; index_in_list=167
-        browser.implicitly_wait(2)
+        browser.implicitly_wait(5)
         browser.find_element(By.CSS_SELECTOR, '.form-control#phoneNumber').send_keys('882765448')
         browser.find_element(By.CSS_SELECTOR, 'button[type="submit"]:first-child').click()
         time.sleep(2)
@@ -66,7 +66,7 @@ class TestChooseBookTab:
         actual_downloaded_file = os.listdir(path)[0]
         actual_downloaded_file_path = os.path.join(path, actual_downloaded_file)
         if actual_downloaded_file_path == assertion_path:
-            print(f"\nThe book - '{name_of_book}'  downloaded correctly")
+            print(f"\nThe book - '{name_of_book}'  downloaded correctly.")
         else:
-            print(f"\nSomething went wrong, actual downloaded file is - '{actual_downloaded_file}' "
-                  f"\nFilename must be - '{pdf_file_name}'")
+            print(f"\nSomething went wrong, actual downloaded file is - '{actual_downloaded_file}'."
+                  f"\nFilename must be - '{pdf_file_name}'.")
