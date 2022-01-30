@@ -4,6 +4,9 @@ import os
 from selenium import webdriver
 from list_of_books import name_url_pdf
 
+# Write a  name of book down here (If you run test from console 'book_option' should be 'None')
+book_option = None
+
 # PATH for downloaded books
 path = os.path.join(os.getcwd(), "downloaded_book")
 
@@ -29,7 +32,7 @@ def browser():
 
 def pytest_addoption(parser):
     parser.addoption(
-        "--book", action="store", default="Engagement Marketing", help="Give a name of a book as a option"
+        "--book", action="store", default=f"{book_option}", help="Give a name of a book as a option"
     )
 
 
