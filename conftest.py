@@ -1,3 +1,4 @@
+import shutil
 import pytest
 import os
 from selenium import webdriver
@@ -22,13 +23,13 @@ def browser():
     browser = webdriver.Chrome(options=options)  # options=options
     yield browser
     print('\n..quit browser..')
-    # os.rmdir(path)
+    shutil.rmtree(path)
     browser.quit()
 
 
 def pytest_addoption(parser):
     parser.addoption(
-        "--book", action="store", default="Engagement Marketing", help="Write a Book's name"
+        "--book", action="store", default="Engagement Marketing", help="Give a name of a book as a option"
     )
 
 
