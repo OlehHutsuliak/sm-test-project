@@ -1,1 +1,0 @@
-# sm-test-project
