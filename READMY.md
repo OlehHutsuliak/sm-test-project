@@ -1,5 +1,4 @@
 Project was created to download an ebook from  salesmanago.pl page and then make sure that correct file was downloaded.
-After each test is given information about test execution. 
 
 #### Before running Tests, parametrize it ####
 In case, when you run Tests from **console**:
