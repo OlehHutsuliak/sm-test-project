@@ -5,7 +5,7 @@ from selenium import webdriver
 from list_of_books import name_url_pdf
 
 # Write a  name of book down here (If you run test from console 'book_option' should be 'None')
-book_option = None
+book_option = None     # "The Greate Book of Generation Leads for Ecommerce"
 
 # PATH for downloaded books
 path = os.path.join(os.getcwd(), "downloaded_book")
@@ -21,6 +21,7 @@ def browser():
         "download.prompt_for_download": False,  # To auto download the file
         "download.directory_upgrade": True,
         "plugins.always_open_pdf_externally": True  # It will not show PDF directly in chrome
+        # "safebrowsing.enabled": False
     })
     print('\n..start browser for test..')
     browser = webdriver.Chrome(options=options)  # options=options

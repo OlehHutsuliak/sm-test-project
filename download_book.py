@@ -8,9 +8,8 @@ import os
 
 
 @pytest.mark.usefixtures('browser')
-class TestChooseBookTab:
-
-    def test_move_to_knowledgecenter(self, browser):
+class TestDownloadBook:
+    def test_move_to_knowlegecenter(self, browser):
         browser.get('https://www.salesmanago.com/')
         browser.maximize_window()
         self.resources_el = browser.find_element(By.CSS_SELECTOR, '.menu__link[data-number="3"]  .menu__link_p').click()
@@ -39,7 +38,7 @@ class TestChooseBookTab:
         browser.implicitly_wait(5)
         browser.find_element(By.CSS_SELECTOR, '.form-control#phoneNumber').send_keys('882765448')
         browser.find_element(By.CSS_SELECTOR, 'button[type="submit"]:first-child').click()
-        time.sleep(2)
+
 
         # We are on the page where we can finally download a book on computer.
         # Unfortunately, this page has a different structure of HTML(depends on name of book) and it's hard to find
@@ -57,8 +56,8 @@ class TestChooseBookTab:
             free_account_button2 = browser.find_element(By.CSS_SELECTOR, '.col-md-12  .thankyou__button').text
             assert free_account_button2 == 'Create a free account', 'Right button'
             print('\nThe book will download from the "Old Style" download page.')
-        browser.find_element(By.CSS_SELECTOR, 'a[href^="https://files"]').click()  # Download ebook
-        time.sleep(2)
+        browser.find_element(By.CSS_SELECTOR, 'a[href*="file"]').click()  # Download ebook
+        time.sleep(4)
 
     @pytest.mark.usefixtures('pdf_file_name', 'name_of_book')
     def test_book_in_folder(self, pdf_file_name, name_of_book):
