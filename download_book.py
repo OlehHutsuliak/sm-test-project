@@ -49,13 +49,12 @@ class TestDownloadBook:
 
     def test_download_pdf(self, browser):
         try:
-            free_account_button1 = browser.find_element(By.CSS_SELECTOR, '.thanks-message  .typ-btn').text
-            assert free_account_button1 == 'CREATE A FREE ACCOUNT', 'Keep searching for the button'
+            self.free_account_button1 = browser.find_element(By.CSS_SELECTOR, '.thanks-message  .typ-btn').text
             print('\nThe book will download from the "New Style" download page')
         except NoSuchElementException:
-            free_account_button2 = browser.find_element(By.CSS_SELECTOR, '.col-md-12  .thankyou__button').text
-            assert free_account_button2 == 'Create a free account', 'Right button'
+            self.free_account_button2 = browser.find_element(By.CSS_SELECTOR, '.col-md-12  .thankyou__button').text
             print('\nThe book will download from the "Old Style" download page.')
+        browser.execute_script('jQuery(\'a\').each(function() {this.href = this.href.replace("http:", "https:");});')
         browser.find_element(By.CSS_SELECTOR, 'a[href*="file"]').click()  # Download ebook
         time.sleep(4)
 

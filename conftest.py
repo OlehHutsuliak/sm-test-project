@@ -5,7 +5,7 @@ from selenium import webdriver
 from list_of_books import name_url_pdf
 
 # Write a  name of book down here (If you run test from console 'book_option' should be 'None')
-book_option = None     # "The Greate Book of Generation Leads for Ecommerce"
+book_option = "Kamasutra of eMail Marketing Deliverability"
 
 # PATH for downloaded books
 path = os.path.join(os.getcwd(), "downloaded_book")
