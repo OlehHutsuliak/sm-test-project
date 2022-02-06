@@ -5,7 +5,7 @@ from selenium import webdriver
 from list_of_books import name_url_pdf
 
 # Write a  name of book down here (If you run test from console 'book_option' should be 'None')
-book_option = None     # "Engagement Marketing"
+book_option = None  # n"Engagement Marketing"
 
 # PATH for downloaded books
 path = os.path.join(os.getcwd(), "downloaded_book")
@@ -16,12 +16,12 @@ def browser():
     os.mkdir(path)
     options = webdriver.ChromeOptions()
     options.add_experimental_option('excludeSwitches', ['enable-logging'])
+    options.add_argument("--start-maximized")
     options.add_experimental_option('prefs', {
         "download.default_directory": f"{path}",  # Change default directory for downloads
         "download.prompt_for_download": False,  # To auto download the file
         "download.directory_upgrade": True,
         "plugins.always_open_pdf_externally": True  # It will not show PDF directly in chrome
-        # "safebrowsing.enabled": False
     })
     print('\n..start browser for test..')
     browser = webdriver.Chrome(options=options)  # options=options
