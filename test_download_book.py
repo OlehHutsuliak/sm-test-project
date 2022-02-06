@@ -11,7 +11,6 @@ import os
 class TestDownloadBook:
     def test_move_to_knowlegecenter(self, browser):
         browser.get('https://www.salesmanago.com/')
-        browser.maximize_window()
         self.resources_el = browser.find_element(By.CSS_SELECTOR, '.menu__link[data-number="3"]  .menu__link_p').click()
         book_el = browser.find_element(By.CSS_SELECTOR, '.category__wrapper.category__wrapper_fl .category__item['
                                                         'href="https://www.salesmanago.com/info/knowledgecenter.htm"]')
@@ -39,7 +38,6 @@ class TestDownloadBook:
         browser.find_element(By.CSS_SELECTOR, '.form-control#phoneNumber').send_keys('882765448')
         browser.find_element(By.CSS_SELECTOR, 'button[type="submit"]:first-child').click()
 
-
         # We are on the page where we can finally download a book on computer.
         # Unfortunately, this page has a different structure of HTML(depends on name of book) and it's hard to find
         # unique selector. So, in this  case I prefer to  use a try/except/else statements.
@@ -63,8 +61,6 @@ class TestDownloadBook:
         assertion_path = os.path.join(path, pdf_file_name)
         actual_downloaded_file = os.listdir(path)[0]
         actual_downloaded_file_path = os.path.join(path, actual_downloaded_file)
-        if actual_downloaded_file_path == assertion_path:
-            print(f"\nThe book - '{name_of_book}'  downloaded correctly.")
-        else:
-            print(f"\nSomething went wrong, actual downloaded file is - '{actual_downloaded_file}'."
-                  f"\nFilename must be - '{pdf_file_name}'.")
+        assert actual_downloaded_file_path == assertion_path, f"\nSomething went wrong, actual downloaded file is" \
+                                                              f" - '{actual_downloaded_file}'.\nFilename must be " \
+                                                              f"- '{pdf_file_name}'. "
